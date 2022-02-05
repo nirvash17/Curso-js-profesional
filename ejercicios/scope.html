@@ -13,15 +13,15 @@
       // Global Scope
       // var message = 'Hello, Platzi!';
       // var $ = function(message) {
-      //   console.log('Say: ' + message);
+      //   console.log('Say: ' + message); //var es global, se puede usar desde cualquier scope
       // };
 
       // Function Scope
       // function printNumbers() {
-      //   var i;
-      //   for (i = 0; i < 10; i++) {
-      //     function eventuallyPrintNumber(n) {
-      //       setTimeout(function() {
+      //   var i; // definit var i, dentro del ciclo for, es como declararl antes del ciclo, esto hace que su contexto este fuera del for, por tanto
+      //   for (i = 0; i < 10; i++) {  // cada vez que se envia un setTimeOut, se envia con i, y se ejecuntan al final dando el ultimo valor de i solamente
+      //     function eventuallyPrintNumber(n) { //  Hacer una funcion dentro del for cambia el contexto de n, al de la funcion, por lo tanto que timer que esta dentro de la funcion
+      //       setTimeout(function() {          // se envia con los valores de n para cada timer. se crea un nuevo contexto con cada temporizador
       //         console.log(n);
       //       }, 100);
       //     }
@@ -34,7 +34,7 @@
 
       // Block Scope
       function printNumbers2() {
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 10; i++) { // let arregla lo anterior pues ahora i pertenece al bloque de codigo de for, por tanto los timer se envian con el valor de i en ese ciclo
           setTimeout(function() {
             console.log(i);
           }, 100);
