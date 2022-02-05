@@ -1,0 +1,114 @@
+<html>
+  <head>
+    <title>Closures</title>
+  </head>
+
+  <body>
+    <a href="/ejercicios/">Go back</a>
+    <p><em>Abre la consola</em></p>
+
+    <script>
+      // Closures
+      // printColor
+
+      // IIFE Inmediatly invoke function expression, funcion que se llama a si misma inmediatamente
+      // (function() { //Se ejecuta inmediatamente y crea su propio scopre, no se puede acceder a la variable color desde afuera
+      //   let color = 'green';
+
+      //   function printColor() {
+      //     console.log(color);
+      //   }
+
+      //   printColor();
+      // })(); //Es como en el ejemplo de scope, crea un bloque donde solo en este se puede acceder a la variable color, crea un scope local para la variable, con let y const esto no es necesario, 
+
+      // Funciones que regresan funciones
+      // function makeColorPrinter(color) { //Es como tener una clase, se le asignan valores y se puede acceder desde fuera del scope, pues el clousure recuerda, actualemente se usan clases
+      //   let colorMessage = `The color is ${color}`;
+
+      //   return function() {
+      //     console.log(colorMessage);
+      //   };
+      // }
+
+      // let greenColorPrinter = makeColorPrinter('green');
+      // console.log(greenColorPrinter());
+
+      // variables "privadas"
+      // const counter = {
+      //   count: 3,
+      // };
+      // console.log(counter.count);
+      // counter.count = 99; // se puede alterar count desde fuera, para esto se usana variables privadas (privadas en lo relativo a contexto de ejecucion)
+      // console.log(counter.count);
+
+      // function makeCounter(n) { //Es como hacer una clase con metodos y bergas, el scope de la funcion no permite que el contador se altere desde fuera
+      //   let count = n;          //haciendo la variable privada y mas segura para errores en el codigo
+
+      //   return {
+      //     increase: function() { // retorna un objeto con funciones, muy bonito
+      //       count = count + 1;
+      //     },
+      //     decrease: function() {
+      //       count = count - 1;
+      //     },
+      //     getCount: function() {
+      //       return count;
+      //     },
+      //   };
+      // }
+
+      // let counter = makeCounter(7);
+
+      // console.log('The count is:', counter.getCount()); //Solo se puede acceder con los metodos
+      // counter.increase();
+      // console.log('The count is:', counter.getCount());
+      // counter.decrease();
+      // counter.decrease();
+      // counter.decrease();
+      // counter.decrease();
+      // console.log('The count is:', counter.getCount());
+
+      // counter.count = 0; // no puede acceder a count
+      // console.log('The count is:', counter.getCount());
+
+      //Lo mismo de arriba pero con clases, que es como se hace desde ES6(6?)
+
+      class makeCounter {
+        #count; // el simbolo # define a la variable como privada
+
+        constructor(n) {
+          this.#count = n;
+        }
+
+        get count() {
+          return this.#count;
+        }
+
+        increase() {
+          this.#count += 1;
+        }
+
+        decrease() {
+          this.#count -= 1;
+        }
+      }
+
+      let counter = new makeCounter(7);
+
+      console.log("The Count is:", counter.count);
+      counter.increase();
+      console.log("The Count is:", counter.count);
+      counter.decrease();
+      counter.decrease();
+      counter.decrease();
+      counter.decrease();
+      console.log("The Count is:", counter.count);
+
+      counter.#count = 0;
+
+
+
+    </script>
+   </body>
+ </html>
