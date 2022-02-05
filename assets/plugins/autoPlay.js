@@ -1,10 +1,15 @@
-function autoPlay(){}
+class autoPlay{
 
-autoPlay.prototype.run = function(player){
-   // player.defaultMuted = true;
-    console.log(player)
-    player.toggleMute(); //El plugin juega con los metodos del reproductor
-    player.play();
+    constructor(video){
+        this.player = video;
+        console.log('xd ', + video)
+
+    }
+
+    run(){
+    // player.defaultMuted = true;
+        this.player.muted = true;
+        this.player.play();    
+    }
 }
-
 export default autoPlay;
