@@ -1,9 +1,7 @@
-class mediaPlayer{
-      //Tengo que intentar hcaer esto con clases, mejor notacion
-    constructor({video, plugins}){
-        this.media = config.el;
-        this.plugins = config.plugins || [];
-        this._initPlugins();
+function mediaPlayer(config){  //Tengo que intentar hcaer esto con clases, mejor notacion
+    this.media = config.el;
+    this.plugins = config.plugins || [];
+    this._initPlugins();
     }
 
 
