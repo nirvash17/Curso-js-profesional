@@ -22,4 +22,5 @@ class mediaPlayer{
         this.media.muted = !this.media.muted //Muy bonito
     }
 }
+
 export default mediaPlayer; 
