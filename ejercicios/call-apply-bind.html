@@ -1,0 +1,56 @@
+<html>
+  <head>
+    <title>
+      Function.prototype.call, Function.prototype.apply, Function.prototype.bind
+    </title>
+  </head>
+
+  <body>
+    <a href="/ejercicios/">Go back</a>
+    <p><em>Abre la consola</em></p>
+
+    <ul>
+      <li><button class="call-to-action">Aprender</button></li>
+      <li><button class="call-to-action">Aprender Más</button></li>
+      <li><button class="call-to-action">¡Nunca parar de Aprender!</button></li>
+    </ul>
+
+    <script>
+      // Establece `this` usando `call`
+      function saludar(){
+        console.log(`Hola soy: ${this.name} ${this.apellido}`);
+      }
+
+      const richard = {
+        name: 'richard',
+        apellido: 'Kaufman'
+      }
+      //call, apply y bind vienen por defecto en todas las funciones (js)
+      saludar.call(richard) //call lo que hace es aasignarle la instancia a la funcion y llamarla
+
+      // Establece `this` usando `call` y pasar argumentos a la función
+      function caminar(metros, direccion){
+        console.log(`${this.name} camina ${metros} metros hacia ${direccion}`)
+      }
+
+      caminar.call(richard, 400, 'norte') //Le asigna la instancia richard y despues manda los argumentos
+      // Establece `this` usando `apply` y pasar argumentos a la función
+      caminar.apply(richard, [802, 'Noreste']) //Apply hace los mismo que call, pero los argumentos los manda en un arreglo, solo ofrece mas flexibilidad par contextos en los que sea mas facil usar arreglos
+      
+      // Establecer `this` en una nueva función usando `bind`
+      const daniel = {name: 'daniel', apellido: 'Sanchez'};
+      const danielSaluda = saludar.bind(daniel); //bind crea una funcion a la que le asigna el this dado (daniel), pero no la llama imediatamente, como call y apply
+      danielSaluda(); //Esta se debe llamar despues, pero le quedo guardado el this asignado con bind
+
+      const danielCamina = caminar.bind(daniel, 2000);// Con el bind tambien se le pueden asignar algunos argumentos de la funcion para que los guarde con el this
+      danielCamina('sur'); //Los restantes se pueden pasar despues
+
+
+      // Cuándo es útil usar uno de estos métodos
+      const buttons = document.getElementsByClassName('call-to-action');
+      buttons.forEach(button => {
+        button.onclick = () => alert('Kill me')
+      });
+    </script>
+  </body>
+</html>
