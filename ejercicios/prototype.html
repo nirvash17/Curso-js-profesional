@@ -1,0 +1,132 @@
+<html>
+  <head>
+    <title>Prototype</title>
+  </head>
+
+  <body>
+    <a href="/ejercicios/">Go back</a>
+    <p><em>Abre la consola</em></p>
+
+    <script>
+      // Un objeto común y corriente
+      // const zelda = {             
+      //   name: 'Zelda',
+      // };
+
+      // zelda.saludar = function() {
+      //   console.log(`Hola soy ${this.name}`);
+      // };
+
+      // zelda.saludar();
+
+      // const link = {
+      //   name: 'Link',
+      // };
+
+      // link.saludar = function() {
+      //   console.log(`Hola soy ${this.name}`);
+      // };
+
+      // link.saludar();
+      // Este metodo es poco eficiete, pues se tiene que escribir de nuevo el metodo por cada objecto creado
+
+
+
+      // Seamos un poco más eficientes
+      // function Hero(name) {
+      //   const hero = {
+      //     name: name,
+      //   };
+
+      //   hero.saludar = function() { //Se crea la funcion y se le asigna al objeto hero como metodo, pero cada vez que se cree el objeto se vuelve a crear la funcion
+      //     console.log(`Hola soy ${this.name}`);
+      //   };
+
+      //   return hero;
+      // }
+      // const zelda = Hero('Zelda');
+      // zelda.saludar();
+
+      // const link = Hero('Link');
+      // link.saludar();
+
+      // Aun podemos mejorar más y evitar tener que crear la misma función cada vez
+      const heroMethods = { //Se crea un objeto con los metodos desde fuera de la funcion hero, por lo tanto se crea una sola vez los metodos
+        saludar: function() {
+          console.log(`Me llamo ${this.name}`);
+        },
+      };
+
+      function Hero(name) {
+        const hero = {
+          name: name,
+        };
+        hero.saludar = heroMethods.saludar; //Cuando se crea un nuevo objeto, los metodos ya vienen 
+        return hero;
+      }
+
+      const zelda = Hero('Zelda');
+      zelda.saludar();
+
+      const link = Hero('Link');
+      link.saludar();
+
+      // Object.create
+      // const nuevoObjeto = Object.create(objeto)
+      // const heroMethods = {
+      //   saludar: function() {
+      //     console.log(`Soy superheroe! ${this.name}`);
+      //   },
+      // };
+
+      // function Hero(name) {
+      //   const hero = Object.create(heroMethods); Object.create asigna todo los meotodos el objeto heroMethods al protoype de hero, si hubieran mas se agragan todos juntos
+      //   hero.name = name;
+
+      //   return hero;
+      // }
+
+      // const zelda = Hero('Zelda');
+      // zelda.saludar();
+
+      // const link = Hero('Link');
+      // link.saludar();
+
+      // Los métodos de hero dentro de Hero
+
+      // function Hero(name) {
+      //   const hero = Object.create(Hero.prototype);  //Le crea el prototype a hero
+      //   hero.name = name;
+
+      //   return hero;
+      // }
+
+      // Hero.prototype.saludar = function() { //Luego se le asignan los metodos directamente al prototipo, no se tiene que usar un objeto externo con metodos
+      //   console.log(`Soy superheroina! ${this.name}`);
+      // };
+
+      // const zelda = Hero('Zelda');
+      // zelda.saludar();
+
+      // const link = Hero('Link');
+      // link.saludar();
+
+      // new es un atajo (azucar sintactica) para llevar Hero.prototype al objeto que estamos creando
+      // function Hero(name) {
+      //   // this = Object.create(Hero.prototype); // con new esto se hace impplicitamente
+      //   this.name = name;
+      //   // return this;    //igaul que esto 
+      // }
+
+      // Hero.prototype.saludar = function() {
+      //   console.log(`New: ${this.name}`);
+      // };
+
+      // const zelda = new Hero('Zelda');
+      // zelda.saludar();
+
+      // const link = new Hero('Link');
+      // link.saludar();
+    </script>
+  </body>
+</html>

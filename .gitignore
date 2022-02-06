@@ -106,3 +106,7 @@ dist
 # Imagenes, .jpg, .png
 *.jpg
 *.png
+*.webp
+
+
+*.Identifier
