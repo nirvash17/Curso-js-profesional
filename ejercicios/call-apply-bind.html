@@ -48,9 +48,28 @@
 
       // Cuándo es útil usar uno de estos métodos
       const buttons = document.getElementsByClassName('call-to-action');
-      buttons.forEach(button => {
-        button.onclick = () => alert('Kill me')
-      });
+      // buttons.forEach(button => { // Esto da error, pues getElementsByClassName devuelve un NodeList que no es igual a un array y no tiene el metodo forEach
+      //   button.onclick = () => alert('Kill me')
+      // });
+
+      // Array.prototype.forEach.call(buttons, button => { //Pero se puede llamar a forEach como metodo del objeto Array y con call se le asigna buttons como this, y un
+      //   button.onclick = () => alert('Feo asunto');     //nodeList si tiene metodo length que es lo que se necesita para usar forEach
+      // })
+
+      // const buttons = document.getElementsByClassName('call-to-action');
+
+      // [...buttons].forEach(button => { //Otra alternativa es usar el spreadOperator, que lo que hace es extraer los elementos de un array y etregarlos como un grupo de elementos
+      //   button.onclick = () => {      //Entonces aca se extraen los elementos y se guardan en un array, es decir se convierte el nodelist en array que si tiene foreach
+      //     alert('no pares de aprender')
+      //   }
+      // });
+      //Segun MDN algunos navegadores traen foreach para protoype, mal ahi el brave
+
+    //Escrito en un comentario y parece que es lo correcto, nodelist si que tiene foreach acutalmente
+      /* 
+      Al utilizar el método document.getElementsByClassName lo que se esta obteniendo es un HTMLCollection que dentro de su prototypo no cuenta con el método forEach.
+      En cambio si hubiésemos utilizado document.querySelectorAll esto si devuelve un NodeList en cuyo prototype existe el método forEach.
+      */
     </script>
   </body>
 </html>
