@@ -1,0 +1,62 @@
+<html>
+  <head>
+    <title>this</title>
+  </head>
+
+  <body>
+    <a href="/ejercicios/">Go back</a>
+    <p><em>Abre la consola</em></p>
+
+    <h1>
+      <code>this</code> se refiere a un objeto. Ese objeto es el que actualmente
+      está ejecutando un pedazo de código.
+    </h1>
+
+    <script>
+      // this en el scope global
+      console.log(`this: ${this}`); //This es window, pues esta en un contexto de ejecucion global
+
+      // this en el scope de una función
+      function whoIsThis() {
+        return this;
+      }
+
+      console.log(`whoIsThis(): ${whoIsThis()}`); //This se llama desde fuera de la funcion, por lo tanto el objecto seguira siendo window , el contexto no se mantiene fuera de la funcion
+
+      // this en el scope de una función en strict mode
+      function whoIsThisStrict() {
+        'use strict'; // Al agregar strict mode se mantiene el contexto => el this de la funcion
+        return this;
+      }
+
+      console.log(`whoIsThisStrict(): ${whoIsThisStrict()}`); // Aca se le llama desde afuera, pero se mantiene el contexto de la funcion
+
+      // this en el contexto de un objeto
+      const person = { // En los objetos se mantiene la instancia con la que se los crea
+        name: 'Gabriel',
+        saludar: function() {
+          console.log(`Hola soy ${this.name}`);
+        },
+      };
+
+      person.saludar(); //Dara 'Hola soy gabriel', pues el objeto mantiene la isntancia con la que se lo crea
+
+      // this cuando sacamos a una función de un objeto
+      const accion = person.saludar;
+      accion(); // Aca da solo 'Hola soy', ya que se guarda la funcion en un contexto global y se pierde la instancia de person
+
+      // this en el contexto de una "clase"
+      function Person(name) {
+        // this = {} // como viene el this por defecto de una funcion
+        this.name = name;
+      }
+
+      Person.prototype.saludar = function() {
+        console.log(`Me llamo ${this.name}`);
+      };
+
+      const angela = new Person('Angela');
+      angela.saludar(); //Dara hola soy angela , pues se crea un 'Metodo' que mantienen la instancia en la que son creados
+    </script>
+  </body>
+</html>
