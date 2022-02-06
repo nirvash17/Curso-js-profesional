@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+/* 
+    class Myclass { //class hace mas comoda la sintaxis para crear objeto e instancias
+        constructor(name) {
+            this.name = name;  
+        }
+
+        tellMyName() {
+            console.log(this.name)  
+        }
+    }
+
+    const myObj = new Myclass("John");
+
+    class Myclass {
+
+        constructor(firstName) {
+            this.name = firstName;  
+        }
+        tellMyName() {
+            console.log(this.name)  
+        }  
+        lastName = "lewis"; //lewis se hace parte de la instancia del objerto, solo als funciones dentro de la clase se van el proto
+    }
+    const myObj = new Myclass("John");
+
+    class Myclass {
+        constructor(firstName) {
+            this.name = firstName;  
+        }    
+        tellMyName = () => { //La arrow function no se guarda en el proto pues pertenece a la instancia, atenti
+            console.log(this.name)  
+        }  
+        lastName = "lewis";
+    }
+
+    const myObj = new Myclass("John");
+
+    class Myclass { //static properties permiten acceder a las propiedades sin crear una instancia, pero la instancia no puede acceder a las propiedades estaticas
+        static welcome() {
+            console.log("Hello World");  
+        }
+    }
+
+    Myclass.welcome();
+    const myObj = new Myclass();
+    myObj.welcome(); */
+
+    function Myclass() {}
+    Myclass.welcome = function() { //Esta forma de declaracion de propiedades permite hacer metodos estaticos con notacion antigua
+          console.log("Hello World");
+    }
+
+
+
+    class Vehicle {
+        constructor(type) {
+            this.vehicleType= type;  
+        }  
+        blowHorn() {
+            console.log("Honk! Honk! Honk!");  
+        }
+    }
+
+
+    class Bus extends Vehicle { //extend permite heredar las propiedades del objeto padre
+        constructor(make) {
+            super("Bus");    //super  ejecuta el contructor del objeto padre
+            this.make = make;   
+        }  
+        accelerator() {
+            console.log('Accelerating Bus');  
+        }  
+        brake() {
+            console.log('Braking Bus');  
+        }
+    }
+
+    Bus.prototype.noOfWheels = 6; //se asigna asi pues si se agina dentro del objeto bus pasa a la instancia en lugar del proto
+    const myBus = new Bus("Mercedes")
+
+
+
+    </script>
+</body>
+</html>

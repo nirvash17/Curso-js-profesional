@@ -103,10 +103,10 @@ dist
 # TernJS port file
 .tern-port
 
-# Imagenes, .jpg, .png
+# Imagenes, .jpg, .png, .webp
 *.jpg
 *.png
 *.webp
 
-
+#Identifiers
 *.Identifier

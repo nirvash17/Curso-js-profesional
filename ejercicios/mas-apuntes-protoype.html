@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prototipos-js</title>
+</head>
+<body>
+    <script>
+
+    //Estos elementos tienen metodos que funcionan si necesidad de que se les agreguen cada vez que se crea uno de estos elementos
+    var arr = [1,2,3,4];arr.reverse(); // returns [4,3,2,1]
+    var obj = {id: 1, value: "Some value"};obj.hasOwnProperty('id'); // returns true
+    var str = "Hello World";str.indexOf('W'); // returns 6
+
+    //A un array o a otros elementos se les pueden asignar metodos de la sgte manera
+    var arr = [1,2,3,4];
+    arr.test = function() { return 'Hi' ;}
+    arr.test(); // will return 'Hi'
+
+    var arr1 = [1,2,3,4];
+    var arr2 = Array(1,2,3,4);
+    //arr1 y arr2 son practicamente identicos
+
+    var foo = function(name) { 
+        this.myName = name;
+        this.tellMyName = function() {
+           console.log(this .myName);
+        }
+    }
+
+   /*  var fooObj1 = new foo('James');
+    fooObj1.tellMyName(); // will print Jamesvar 
+    fooObj2 = new foo('Mike');
+    fooObj2.tellMyName(); // will print Mike
+
+    console.log(fooObj1.tellMyName === fooObj2.tellMyName) */ // devuelve false, pues para cada instancia se creo nuevamente el metodo tellMyName, gastando memoria de mas
+
+
+    var foo = function(name) { this.myName = name;}
+    foo.prototype.tellMyName = function() {   console.log(this.myName);}
+    var fooObj1 = new foo('James');
+    fooObj1.tellMyName(); // will print Jamesvar 
+    fooObj2 = new foo('Mike');
+    fooObj2.tellMyName(); // will print Mike
+    console.log(fooObj1.tellMyName === fooObj2.tellMyName) /* Retrona true, pues el metodo tellMyName se agrega al protoype, es decir el objeto foo hereda tellMyName, de modo
+    que cuando lo invocan, ambas instancias apuntan a la misma ubicacion de memoria */
+    // Ahora tellMyName esta en el proto, donde __proto__ es una referencia al objeto del que se esta heredando
+
+
+    //Ahora se cre un array
+    var arr = [1, 2, 3, 4];
+    // y se hace
+    console.log(arr.__proto__ === Array.prototype); //Devuelve true, pues al crear un array este hereda las propiedades del objeto Array atraves del proto
+    
+    //__proto__ no esta en todos los navegadores, asi que no deberia usarse
+    var arr = [1, 2, 3, 4];
+    var prototypeOfArr = Object.getPrototypeOf(arr); //Se extrae el proto de arr
+    console.log(prototypeOfArr === Array.prototype);//Y se ve que es igual al del objeto Array
+    console.log(prototypeOfArr === arr.__proto__);
+
+
+
+    /* Se puede ver que dentro de lagunos protos hay otros protos, esto es encadenamiento de protos, herencia */
+
+    function Vehicle(vehicleType) {  //Vehicle Constructor, objeto principal pues todos las istancias son vehiculos y todos pueden tocar la bocina
+        this.vehicleType = vehicleType;}
+
+    Vehicle.prototype.blowHorn = function () {    //bocina
+        console.log('Honk! Honk! Honk!'); // All Vehicle can blow Horn
+    }
+
+    function Bus(make) { // Bus Constructor  
+        Vehicle.call(this, "Bus"); //LLama al objeto vehicle y le asigna el tipo de vehiculo, con call queda como parte de la instancia bus
+        this.make = make
+    }
+    //Los metodos de bus van el el primer proto pues es lo primero que hereda, luego los metodos de vehicle, la bocina van en el segundo proto pues lo hereda del proto de vehicles
+    Bus.prototype = Object.create(Vehicle.prototype); // Make Bus constructor inherit properties from Vehicle Prototype Object
+    Bus.prototype.noOfWheels = 6; // Let's assume all buses have 6 wheels
+    Bus.prototype.accelerator = function() {    
+        console.log('Accelerating Bus'); //Bus accelerator
+    }
+    Bus.prototype.brake = function() {    
+        console.log('Braking Bus'); // Bus brake
+    }
+
+    function Car(make) {  
+        Vehicle.call(this, "Car");  
+        this.make = make;
+    }
+
+    Car.prototype = Object.create(Vehicle.prototype);
+    Car.prototype.noOfWheels = 4;
+    Car.prototype.accelerator = function() {
+            console.log('Accelerating Car');
+        }
+
+    Car.prototype.brake = function() {    
+        console.log('Braking Car');
+    }
+
+    function MotorBike(make) {  
+        Vehicle.call(this, "MotorBike");  
+        this.make = make;
+    }
+
+    MotorBike.prototype = Object.create(Vehicle.prototype);
+    MotorBike.prototype.noOfWheels = 2;
+    MotorBike.prototype.accelerator = function() {
+            console.log('Accelerating MotorBike');
+        }
+
+    MotorBike.prototype.brake = function() {    
+        console.log('Braking MotorBike');
+    }
+
+    var myBus = new Bus('Mercedes');
+    var myCar = new Car('BMW');
+    var myMotorBike = new MotorBike('Honda');
+
+
+
+    </script>
+</body>
+</html>
