@@ -1,0 +1,127 @@
+<html>
+  <head>
+    <title>Promesas</title>
+  </head>
+
+  <body>
+    <a href="/ejercicios/">Go back</a>
+
+    <ul>
+      <li><button id="sequence">Get Top Movies in Sequence</button></li>
+      <li><button id="parallel">Get Top Movies in Parallel</button></li>
+      <li><button id="fastest">Get Fastest Top Movie</button></li>
+    </ul>
+
+    <ul id="movies"></ul> <!-- Lista para apilar pelliculas -->
+
+    <script>
+      // Ejemplo: renderMovies([{ title: "Spider-Man", release_date: "2019-06-30", poster_path: "/rjbNpRMoVvqHmhmksbokcyCr7wn.jpg" }])
+      // Traducir las funciones de usar thens a usar async/await
+      // Crear función para que no nos gastemos la cantidad de requests demasiado rapido
+      // Crear función donde hacemos requests secuenciales
+      // Crear función donde hacemos requests en paralelo
+      // Crear función donde obtenemos el primer request que llegue
+
+      // The Movie Database API: https://developers.themoviedb.org/3/getting-started/introduction
+      const apiKey = 'b89fc45c2067cbd33560270639722eae';
+
+      async function getMovie(id){ /* Se crea una funcion asincrona, es decir que sera enviada al webapi, se ejecuta asincronamente mientras el resto del codigo continua */
+        const url = `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}`; /* Sin embargo, dentro de la funcion asincrona, nada pasa hasta que se completa un await 
+        , una funcion asyn siempre retorna una promesa que van al mini queue y se apilan hasta que se vacia el stack*/
+ /*        return fetch(url)       //Promesas con .then, async/await es sintatic sugar para esto namas, es mas comodo y conveniente                                                           
+        .then(response => {
+          response.json()
+          console.log(response.json())
+          }); */
+          const response = await fetch(url); //Se espera a que se complete la peticion
+          const data = await response.json(); //Lo mismo
+          return data;
+      }
+
+      async function getPopularMovies() {
+        const url = `https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=${apiKey}`;
+/*         return fetch(url)
+          .then(response => response.json())
+          .then(data => {
+            
+            return data.results
+            }); */
+          const response = await fetch(url); //Al parecer devuelve un objeto general con las peliculas ordenadas
+          const data = await response.json();
+          console.log(data)
+          return data.results;
+      }
+
+      async function getTopMoviesIds(n = 3) {
+        
+/*         return getPopularMovies().then(popularMovies =>{
+           popularMovies.slice(0, n).map(movie => movie.id)
+        }
+         ); */
+         const popularMovies = await getPopularMovies(); //Se llama a una funcion asincrona, asi que await espera a una promesa a que se cumpla par seguir, luego await siempre da otra promesa
+         const ids = popularMovies.slice(0, n).map(movie => movie.id); //Las dejara siempre en orden (creo)
+         console.log(ids);
+         return ids;
+      }
+
+      function renderMovies(movies) { /* Consigue la lista para apilar las peliculas */
+        const movieList = document.getElementById('movies');
+        movieList.innerHTML = ''; //Crea el espacio donde pondra los filmes
+
+        movies.forEach(movie => {
+          const listItem = document.createElement('li'); //Crea los items del listado 
+          listItem.innerHTML = `
+            <img src="https://image.tmdb.org/t/p/w342${movie.poster_path}" /> 
+            <h5>${movie.title}</h5>
+            <p>Released on <em>${movie.release_date}</em></p>
+            `; //Crea el espacio html donde va el poster, con los datos de la API, le agrega el titulo y el año
+
+          movieList.appendChild(listItem); //Lo añade al HTML
+        });
+      }
+
+      async function getTopMoviesInSequence() {
+        const ids = await getTopMoviesIds();
+        console.log(`ids ${ids}`)
+        const movies = [];
+        for (const id of ids){
+          const movie = await getMovie(id); //Espera a conseguir cada pelicula
+          movies.push(movie); //Las agrega a un array y lo retorna
+        }
+        return movies;
+      }
+
+      async function getTopMoviesInParallel() {
+        const ids = await getTopMoviesIds();
+        const moviePromises = ids.map(id => getMovie(id)); //GetMovie devuelve una promesa, pues es async
+        console.log(moviePromises) 
+        const   movies = Promise.all(moviePromises); //Espera a que se resuelvan todas las promesas
+        console.log(movies) 
+
+        return movies;
+      }
+
+      async function getFastestTopMovie(){
+        const ids = await getTopMoviesIds();
+        const moviePromises = ids.map(id => getMovie(id));/* getMovie devuelve promesas al ser async, entonces dr guardan estas en un arreglo, */
+        const movie = await Promise.race(moviePromises); //Ve cual promesa se resuelve mas rapido
+        return movie;
+      }
+
+      document.getElementById('sequence').onclick = async function() { 
+        const movies = await getTopMoviesInSequence(); //Espera a que se resuelva la promesa que retorna la funcion llamada, como poner .then al final
+        renderMovies(movies);
+      };
+
+      document.getElementById('parallel').onclick = async function() {
+        const movies = await getTopMoviesInParallel();
+        renderMovies(movies);
+      };
+
+      document.getElementById('fastest').onclick = async function() {
+        const movie = await getFastestTopMovie();
+        renderMovies([movie]);
+      };
+    </script>
+  </body>
+</html>
