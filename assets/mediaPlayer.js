@@ -7,10 +7,25 @@ function mediaPlayer(config){  //Tengo que intentar hcaer esto con clases, mejor
 
 mediaPlayer.prototype._initPlugins = function(){
 
-    this.plugins.forEach( plugin => {
-        plugin.run(this);  //Esta es una instancia de un plugin, que es un objeto,se deben usar metodos => se crea el objeto plugins en autoplay
-    })                      //Se envia la instancia de media player para que pueda usaral el plugin
+    
+    const player = {
+        play: () => this.play(),
+        pause: () => this.pause(),
+        media: this.media, //Se crea un media, pues de otro modo el this de abajo apunta al objeto player y no al del objeto general
 
+        get muted(){ //El getter permite leer propiedades de un objeto, a traves de una funcion, pero como propiedades que es mas comodo como notacion
+            return this.media.muted; //Ademas de dentro de la funcion, hacer cambios dinamicos
+        },
+        set muted(value){ //Luego con el setter se pueden cambiar estas propiedades desde fuera
+            this.media.muted = value;
+        }
+    }
+    debugger
+    this.plugins.forEach( plugin => {
+        plugin.run(player);  /* Tras set y get, al plugin le evio solo el objeto creado en el proto, es decir, ya no le envio todas las propiedades
+        del objeto al plugin, limitando su manejo sobre el objeto
+        */
+    })                       
 }
     
 mediaPlayer.prototype.play = function(){
