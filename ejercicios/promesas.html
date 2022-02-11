@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+let random = [];
+
+for (let i = 0;i<10;i++){
+    random.push(Math.ceil((Math.random())*4000) + 1000);
+}
+
+console.log(random);
+
+/* random.forEach((tiempo) => {
+    setTimeout(() => {
+        console.log(`Esta peticion ha tardado ${tiempo} segundos`)
+        },
+        tiempo
+    )
+})
+*/
+
+async function exp(lista){
+    let promesas = lista.map((t) => wait(t));
+    console.log(promesas);
+    let results = Promise.all(promesas);
+    console.log(`results ${results}`);
+    console.log(results);
+    debugger
+
+}
+ 
+async function wait(tiempo){
+    await setTimeout(() => {
+        console.log(`Esta peticion ha tardado ${tiempo} segundos`)
+        },
+        tiempo
+    )
+    return tiempo;
+}
+
+/* console.log(wait(2000));
+ */    
+ </script>
+</body>
+</html>
