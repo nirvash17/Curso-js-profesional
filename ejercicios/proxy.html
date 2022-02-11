@@ -1,0 +1,71 @@
+<html>
+  <head>
+    <title>Proxy</title>
+  </head>
+
+  <body>
+    <a href="/ejercicios/">Go back</a>
+    <p><em>Abre la consola</em></p>
+
+    <script src="https://unpkg.com/fast-levenshtein@2.0.6/levenshtein.js"></script> <!-- Libreria para ver la distancia entre 2 strings, cuantos caracteres tienen de diferencia -->
+    <script>
+      // Proxy es parecido a getters y setters
+      // Usa un concepto que se llama traps: son interceptores de llamadas. A diferencia de getters, no opera sobre una propieda, si no sobre un objeto.
+      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy#Methods_of_the_handler_object
+
+      // Creemos un ejemplo donde interceptamos llamadas para leer una propiedad
+      // Si la propiedad existe, la regresamos
+      // Si no existe, entonces sugerimos una que pueda funcionar
+
+      // Para eso eso vamos a usar un algoritmo que se llama Levenshtein. (window.Levenshtein.get)
+      // Ejemplos de levenshtein distance (usa window.Levenshtein)
+
+      const target = { //objeto a interceptar
+        red: 'Rojo',
+        green: 'Verde',
+        blue: 'Azul',
+        brown: 'brown',
+        pink: 'pink',
+        skyblue: 'skyblue'
+      };
+
+      const handler = { //Objeto que manejara las interacciones que se hagan con el target
+        get(obj, prop) { //get recive el objeto y la propiedad con el que se le esta llamando
+          if (prop in obj) {  //ve si la key esta em el objeto
+            return obj[prop];  //retorna el value de la propiedad
+          }
+/* 
+          //si no encuentra la propiedad sigue aca
+          const suggestion = Object.keys(obj).find(key => { //sacar un array de las propiedades 
+            return Levenshtein.get(key, prop) <= 3;     // Y ve si encuentra una propiedad con diferencia de cararcteres menor a 3 , con la libreia importada
+          });   //find devuelve la primera coincidencia */
+
+          //Esto hace lo mismo que lo de arriba, pero arregla el caso en el que hayan 2 valores con diferencia menor a 3, y solo deja el con menor diferencia
+          const properties = Object.keys(obj);
+          let sugerencias = {};
+          properties.forEach((elem) => {
+            console.log(elem);
+            const diff = Levenshtein.get(elem, prop);
+            if (diff <= 3){
+              sugerencias[elem] = diff;
+            }
+          })
+
+          const sugerenciasSorted = Object.entries(sugerencias).sort((a, b) => a[1] - b[1]);
+          
+          console.log(sugerencias, sugerenciasSorted);
+
+          if (suggestion) {
+            console.log(
+              `${prop} no se encontró. Quisiste decir ${sugerenciasSorted[0][0]}?`  //Envia la sugerenncia
+            );
+          }
+
+          return obj[prop];
+        },
+      };
+      //Proxy es un objeto
+      const p = new Proxy(target, handler); //target es el objeto que se quiere interceptar
+    </script>
+  </body>
+</html>
