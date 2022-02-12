@@ -13,7 +13,7 @@ let random = [];
 
 for (let i = 0;i<10;i++){
     random.push(Math.ceil((Math.random())*4000) + 1000);
-}
+} //Lista de tiempos generados al azar
 
 console.log(random);
 
@@ -32,7 +32,6 @@ async function exp(lista){
     let results = Promise.all(promesas);
     console.log(`results ${results}`);
     console.log(results);
-    debugger
 
 }
  
@@ -42,11 +41,12 @@ async function wait(tiempo){
         },
         tiempo
     )
+    console.log('Y ahi namas')
     return tiempo;
 }
 
 /* console.log(wait(2000));
- */    
+ */  
  </script>
 </body>
 </html>

@@ -48,7 +48,6 @@
             }); */
           const response = await fetch(url); //Al parecer devuelve un objeto general con las peliculas ordenadas
           const data = await response.json();
-          console.log(data)
           return data.results;
       }
 
@@ -59,8 +58,7 @@
         }
          ); */
          const popularMovies = await getPopularMovies(); //Se llama a una funcion asincrona, asi que await espera a una promesa a que se cumpla par seguir, luego await siempre da otra promesa
-         const ids = popularMovies.slice(0, n).map(movie => movie.id); //Las dejara siempre en orden (creo)
-         console.log(ids);
+         const ids = popularMovies.slice(0, n).map(movie => movie.id); //Las dejara siempre en orden, pues getPopular movies las devuelve un array de objetos que son las pelicuals
          return ids;
       }
 
@@ -81,10 +79,10 @@
       }
 
       async function getTopMoviesInSequence() {
-        const ids = await getTopMoviesIds();
+        const ids = await getTopMoviesIds(10);
         console.log(`ids ${ids}`)
         const movies = [];
-        for (const id of ids){
+        for (const id of ids){ //Entiendo que por el await y como ids viene en orden, retornara siempre en orden
           const movie = await getMovie(id); //Espera a conseguir cada pelicula
           movies.push(movie); //Las agrega a un array y lo retorna
         }
@@ -92,12 +90,10 @@
       }
 
       async function getTopMoviesInParallel() {
-        const ids = await getTopMoviesIds();
+        const ids = await getTopMoviesIds(20);
         const moviePromises = ids.map(id => getMovie(id)); //GetMovie devuelve una promesa, pues es async
-        console.log(moviePromises) 
+        console.log(`ids ${ids}`)
         const   movies = Promise.all(moviePromises); //Espera a que se resuelvan todas las promesas
-        console.log(movies) 
-
         return movies;
       }
 
@@ -105,6 +101,8 @@
         const ids = await getTopMoviesIds();
         const moviePromises = ids.map(id => getMovie(id));/* getMovie devuelve promesas al ser async, entonces dr guardan estas en un arreglo, */
         const movie = await Promise.race(moviePromises); //Ve cual promesa se resuelve mas rapido
+        console.log(`Movie ${movie}`)
+
         return movie;
       }
 

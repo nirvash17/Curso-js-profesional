@@ -113,3 +113,6 @@ dist
 
 #Just some files i dont intend to share to the world
 V9-js.txt
+
+#El lector the apis
+*.http
