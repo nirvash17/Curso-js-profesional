@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //Con esta notacion se declara un generador
+        function* simpleGenerator(){//Los generadores son funciones cuya ejecucion se puede interrumpir y obtener valores en ese estado, luego se puede continuar la ejecucion, siempre recordando el scope 
+            console.log('Generator start');
+            yield 1;
+            yield 2;
+            yield 3;
+            console.log('Generator end');
+        }
+
+        const gen = simpleGenerator();//Se les llama asigando el objeto generador a una variable, y haciendo var.gen()
+
+        function* idMaker(){ 
+            let id = 1;
+            while(true){
+                yield id;
+                id = id + 1;
+            }
+        }
+
+        
+        function* idMakerWithReset(){
+            let id = 1;
+            while(true){
+                reset = yield id; //Se puede llamar el .next con un argumento que permite controlar el flujo dentro de la funcion, aca se usa para reiniciar el contador
+                if (reset){
+                    id = 1;
+                }else{
+                    id = id + 1;
+                }
+            }
+        }
+        const gen2 = idMakerWithReset(); 
+
+        function* fibonacci(){
+            let a = 1;
+            let b = 1;
+
+            while(true){
+                yield b;
+                const c = a+b;
+                a = b;
+                b = c;
+
+            }
+        }
+
+        const fiboGen = fibonacci();
+    </script>
+</body>
+</html>
