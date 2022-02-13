@@ -36,9 +36,10 @@ this.media.pause();
 }
 
 mediaPlayer.prototype.play_pause = function(){ //Metodo que controla el play y pausa con el boton play
-console.log(`paused: ${this.media.paused}`);
 
 this.media.paused ? this.play() : this.pause(); 
+console.log(`paused: ${this.media.paused}`);
+
 }
 
 // mediaPlayer.prototype.mute = function(){ Solucion con 3 metodos, una para mutear, para desmutear y uno que cambia entre ambos con un boton
