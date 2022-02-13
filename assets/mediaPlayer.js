@@ -7,9 +7,22 @@ class mediaPlayer{
     }
 
     _initPlugins(){
+
+        const player = {
+            play_pause: () => this.play_pause(),
+            media: this.media,//gettes y setters toman el this del objeto en que estan, por ello debo definir media antes de usarlo en set y get
+
+            get muted(){
+                return this.media.muted;
+            },
+            set muted(value){
+                this.media.muted = value;
+            }
+        }
+
         this.plugins.forEach( plugin => {
-            plugin.run();  //Esta es una instancia de un plugin, que es un objeto,se deben usar metodos => se crea el objeto plugins en autoplay
-        })                      //Se envia la instancia de media player para que pueda usaral el plugin
+            plugin.run(player);  //Esta es una instancia de un plugin, que es un objeto,se deben usar metodos => se crea el objeto plugins en autoplay
+        })                      //Se envia la instancia de player para no dar tanta informacion al plugin, solo se le da lo necesario
     }
 
     play_pause(){ //Metodo que controla el play y pausa con el boton play
