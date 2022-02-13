@@ -20,7 +20,6 @@ mediaPlayer.prototype._initPlugins = function(){
             this.media.muted = value;
         }
     }
-    debugger
     this.plugins.forEach( plugin => {
         plugin.run(player);  /* Tras set y get, al plugin le evio solo el objeto creado en el proto, es decir, ya no le envio todas las propiedades
         del objeto al plugin, limitando su manejo sobre el objeto
