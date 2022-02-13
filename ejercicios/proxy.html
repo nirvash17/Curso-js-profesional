@@ -43,23 +43,32 @@
           //Esto hace lo mismo que lo de arriba, pero arregla el caso en el que hayan 2 valores con diferencia menor a 3, y solo deja el con menor diferencia
           const properties = Object.keys(obj);
           let sugerencias = {};
-          properties.forEach((elem) => {
+
+          properties //Utilizo filter para hacer el filtrado de sugerencias, mas optimo que usar el if
+          .filter(elem => {
+            return Levenshtein.get(elem, prop) <= 3;
+          })
+          .forEach( elem => {
+            sugerencias[elem] = Levenshtein.get(elem, prop);
+          })
+       
+          //Filtro que use antes del filter
+     /*      properties.forEach((elem) => {
             console.log(elem);
             const diff = Levenshtein.get(elem, prop);
             if (diff <= 3){
-              sugerencias[elem] = diff;
+              sugerencias[elem] = diff; //busca todas las posibles sugerencias
             }
           })
-
-          const sugerenciasSorted = Object.entries(sugerencias).sort((a, b) => a[1] - b[1]);
+ */
+          const sugerenciasSorted = Object.entries(sugerencias).sort((a, b) => a[1] - b[1]); //y las ordena de menor a mayor
           
           console.log(sugerencias, sugerenciasSorted);
 
-          if (suggestion) {
-            console.log(
-              `${prop} no se encontró. Quisiste decir ${sugerenciasSorted[0][0]}?`  //Envia la sugerenncia
-            );
-          }
+      
+          console.log(
+            `${prop} no se encontró. Quisiste decir ${sugerenciasSorted[0][0]}?`  //Envia la sugerenncia menor segun el orden hecho
+          );
 
           return obj[prop];
         },

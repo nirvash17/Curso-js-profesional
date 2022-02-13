@@ -1,0 +1,63 @@
+<html>
+  <head>
+    <title>Abort Fetch</title>
+  </head>
+  <body>
+    <a href="/ejercicios/">Go back</a>
+    <p><em>Abre la consola</em></p>
+
+    <img 
+        id="huge-image" 
+        height="400"
+    />
+    <button id="load">Load HUGE Image</button>
+    <button id="stop" disabled>Stop Fetching</button>
+    
+    <script>
+      /* Fetch en un comienzo no podia detener una peticion, es decir si se realiza una y esta tardando mucho, aunque el usuario intente cerrar todo la peticion no se detiene
+      , lo que es muy poco practico en casi todos los casos, para eso se hace abort-fetch, asi se detienen llamadas y se ahorran bytes de internet, recursos */
+
+
+
+
+      const url = 'https://images.pexels.com/photos/974470/nature-stars-milky-way-galaxy-974470.jpeg?q=100';//url de la imagen a cargar
+      const img = document.getElementById('huge-image');
+      const loadButton = document.getElementById('load');
+      const stopButton = document.getElementById('stop');
+      let controller; //Se declara de manera global, pues necesito usarlo en la funcion de start y stop
+
+
+      function startLoading() {
+        loadButton.disabled = true;
+        loadButton.innerText = 'Loading...';
+        stopButton.disabled = false;
+      }
+      function stopLoading() {
+        console.log('hey')
+
+        loadButton.disabled = false;
+        loadButton.innerText = 'Load HUGE Image';
+        stopButton.disabled = true;
+      }
+
+      loadButton.onclick = async function() {
+        startLoading();
+        controller = new AbortController(); //se crea el objeto para abortar la peticion, solo se crea tras realizar la peticion
+        try{
+          const response = await fetch(url, {signal: controller.signal}); //al fetch le agrego la propiedad signal del controller, que permite al abort comunicarse con el fetch
+          const blob = await response.blob(); //blob es el archivo binario de la imagen, no se pidio un objeto, sino una imagen
+          const imgUrl = URL.createObjectURL(blob); //El objeto URL tiene el meotodo createObjectURL(), que a partir de un binario de una imagen crea una url, esta es una utilidad del navegador
+          img.src = imgUrl; //leagrego la url al elemento imagen, esta no es la misma url inicial, sino que se esta cargando en mi servidor local
+        }catch(error){
+          console.error(error);
+        }
+          stopLoading();
+      };
+
+      stopButton.onclick = function() {
+        controller.abort(); //Cuando se aprieta el boton de abort, el controller ejecuta el metodo abor() que se esta comunicando con el fetch por medio del signal
+        stopLoading();
+      };
+    </script>
+  </body>
+</html>
