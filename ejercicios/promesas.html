@@ -35,13 +35,16 @@ async function exp(lista){
 
 }
  
-async function wait(tiempo){
-    await setTimeout(() => {
-        console.log(`Esta peticion ha tardado ${tiempo} segundos`)
+async function wait(tiempo){ //Antes no estaba retornando una promesa en el setTimeOut, por ende no me esperaba en await
+    let late = await new Promise ((resolve, reject) => {
+        setTimeout(() => {
+        console.log('aaaaaaaaaaa')
+        resolve(`Esta peticion ha tardado ${tiempo} segundos`)
         },
         tiempo
     )
-    console.log('Y ahi namas')
+    })
+    console.log(late);
     return tiempo;
 }
 
