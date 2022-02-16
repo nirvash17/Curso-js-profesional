@@ -21,5 +21,3 @@ if ('serviceWorker' in navigator){
         console.log(error.message)  //Por si sale mal se le asigna un catch
     })
 }
-
-      

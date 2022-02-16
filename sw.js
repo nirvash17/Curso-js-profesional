@@ -1,6 +1,7 @@
 /*  Archivo del service worker, que controlara la pagina web, con la que se le asocia, interceptando y modificando la navegacion y las peticiones, cacheando los recursos
     , por ejempplo para cuando no hay conexion,
     El sw esta en hilo distinto al original de js, por ende es completamente asincrono
+    sw depende de 2 apis, fetch, para hacer peticiones en la web y cache, para almecenar data de las aplicaciones, el cache del sw es independiente del del browser
  */
 
 
@@ -19,13 +20,13 @@ self.addEventListener('install', event => { //Si el register sale bien se descar
 //La peticion puede consitir de pedirla al repositorio fuente, los archivos necesarios para correr la pagina, js, html, css, etc.
 self.addEventListener('fetch', event => {
     const request = event.request; //con .request se extrae la peticion realizada
-
     if (request.method !== 'GET'){ //Solo nos interasan las peticiones del tipo GET, de lo contrario se sale del callback
         return;
     }
 
-    event.waitUntil(updateCache(request));
     event.respondWith(cachedResponse(request)); //.respondeWidth, evita que el browser maneje la peticion por defecto y deja que lo haga el callback del dev (me)
+
+    event.waitUntil(updateCache(request));/* Se llama al update cada vez que se detecta una peticion del browser y se envia la peticion */
 
 });
 
@@ -49,14 +50,17 @@ async function cachedResponse(request){
     console.log(`request, ${request}`)
     const cache = await caches.open(VERSION); //Se vuelve a abrir el objeto de cache VERSION
     const response = await cache.match(request); //Se ve que el contenido de la cache coincida con el pedido en la request del fetch, y se devuelve una promesa con el contenido de la cache
-    return response || fetch(request); //Se devielve el contenido de response
+    return response || fetch(request); //Se devielve el contenido de response y si la response de undefined, es decir que no hubo coincidencia con el fetch
 }   
 
 async function updateCache(request){
-    const cache = await caches.open(VERSION);
+    //RespondWith, si se tienen los archivos pedidos en cache, usa esos, incluso si uno de estos ha sido actualizado, dejando al usuario con data desactualizda, para 
+    //esto se debe actualizar la cache constantemente
+    const cache = await caches.open(VERSION); 
     const response = await fetch(request);
 
-    return response.status === 200 
+    //Luego se agrega al cache el contenido de la nueva peticion
+    return response.status === 200 //Esto es ya que la peticion del video da una codigo de respuesta 206, que no era sopertado por el cache.put()
         ? cache.put(request, response) 
         : new Promise((resolve, reject) => resolve(':D'));      
 }
