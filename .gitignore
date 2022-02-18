@@ -113,6 +113,10 @@ dist
 
 #Just some files i dont intend to share to the world
 V9-js.txt
+oldpackage.json
 
 #El lector the apis
 *.http
+
+#El cache del parcel, cero que no es recomendable subirlo al repo
+.parcel-cache

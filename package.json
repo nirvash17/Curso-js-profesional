@@ -1,16 +1,34 @@
 {
-  "name": "platzi-media-player",
+  "name": "curso-js-profesional",
   "version": "1.0.0",
-  "description": "Proyecto del Curso Profesional de JavaScript de la Escuela de JavaScript de Platzi.",
-  "license": "MIT",
-  "author": "César Augusto Barco <augustopayza@gmail.com>",
-  "keywords": [
-    "platzi"
-  ],
-  "scripts": {
-    "start": "live-server"
-  },
+  "description": "Iré realizando lo que enseñe el profe en cada clase, los retos que deje y moviendo una que otra cosita ## Curos profesional de javascript, platzi",
+  "main": "sw.js",
   "devDependencies": {
-    "live-server": "^1.1.0"
-  }
+    "live-server": "^1.2.1",
+    "parcel": "^2.3.2"
+  },
+  "scripts": {
+    "start":  "live-server",
+    "build": "parcel build",
+    "dev": "parcel index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nirvash17/Curso-js-profesional.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nirvash17/Curso-js-profesional/issues"
+  },
+  "homepage": "https://github.com/nirvash17/Curso-js-profesional#readme",
+  "browserslist": [
+    "last 3 and_chr versions",
+    "last 3 chrome versions",
+    "last 3 opera versions",
+    "last 3 ios_saf versions",
+    "last 3 safari versions",
+    "last 3 brave versions"
+  ]
 }
