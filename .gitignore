@@ -118,5 +118,7 @@ oldpackage.json
 #El lector the apis
 *.http
 
-#El cache del parcel, cero que no es recomendable subirlo al repo
+#Los caches y dist, cero que no es recomendable subirlo al repo
 .parcel-cache
+.cache
+disr

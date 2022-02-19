@@ -4,11 +4,10 @@
   "description": "Iré realizando lo que enseñe el profe en cada clase, los retos que deje y moviendo una que otra cosita ## Curos profesional de javascript, platzi",
   "main": "sw.js",
   "devDependencies": {
-    "live-server": "^1.2.1",
     "parcel": "^2.3.2"
   },
   "scripts": {
-    "start":  "live-server",
+    "start": "parcel index.html ejercicios/index.html ejercicios/**/*.html",
     "build": "parcel build",
     "dev": "parcel index.html"
   },
