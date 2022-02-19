@@ -35,15 +35,16 @@ async function precache() {
         para usar offline ) teniendo el nombre con el que se llama al metodo (VERSION), es decir se crea un objeto VERSION donde se guardan los archivos que se pasan a esta cache  */
     console.log(cache)
     cache.addAll([ //Añade al objeto de cache las urls que se usaran, esta es la peticion que detectara el browser
-        '/',
+/*         '/',
         '/index.html',
         '/assets/index.js',
         '/assets/mediaPlayer.js',
         '/assets/plugins/autoPlay.js',
         '/assets/plugins/autoPause.js',
         '/assets/index.css',
-        '/assets/ejercicio.mp4',
+        '/assets/ejercicio.mp4', */
     ])
+    //Comente esto, pues el parcel cambia los elementos de carpeta y se arma un lio, de todos modos, el cachedResponse hace el fetch normal si no encuentra en cache
 }
 
 async function cachedResponse(request){

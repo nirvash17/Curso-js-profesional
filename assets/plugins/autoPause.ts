@@ -1,5 +1,12 @@
-class autoPause{
+import mediaPlayer from "../mediaPlayer";
 
+class autoPause{
+    
+    /* En una clase de ts debo asignar los tipos */
+    private threshold:number; //Adenas puedo definir variables privadas, haciendo que si se importa el plugin, no se tenga acceso a esat variable privada
+    private isPausedByScroll:boolean;
+    private isPausedByTab:boolean;
+    player: mediaPlayer; //player sera una instancia de mediaPlayer
     constructor(){
         this.threshold = 0.25;
         this.isPausedByTab = false;
@@ -14,8 +21,7 @@ class autoPause{
 
     run(player){
 
-        this.player = player; //Guardo player en una instancia de la clase autoPause
-        this.isPaused = this.player.media.paused;
+        this.player = player; /* Guardo player en una instancia de la clase autoPause */
         //intersectionObserver es una api del DOMI que checa constantemente la posicion de un elemento respecto a un viewport que se puede especificar, por defecto es la ventana del navegador
         //Luego se le manda un handler que hara alggo para cierto margen de visibilidad respecto al root(viewport), luego se definen viewport, rootMargin y threehold
         const observer = new IntersectionObserver(this.handleIntersection, {
@@ -28,9 +34,11 @@ class autoPause{
         document.addEventListener("visibilitychange", this.handleVisibilitychange); //Metodo donde se echa a correr el plugin, asi que es buen lugar para poner al eventLisetener
     }
 
-    handleIntersection(entries) { //El handler recibe un array con los objetos observados, que contienen los datos de posicion del objeto target
+    //Funcion que solo sellama desde el plugin, asi que privada
+    private handleIntersection(entries:IntersectionObserverEntry[]) { /* El handler recibe un array con los objetos observados, que contienen los datos de posicion del objeto target
+        Ademas en ts se lo asigno como tipo a entries */
+
         const entry = entries[0];
-        console.log('Paused intersected ', this.isPaused);
 
         if (entry.isIntersecting && this.isPausedByScroll){ //Si esta intersectando y fue pausado por scroll, se da play
             this.player.play();
@@ -41,7 +49,7 @@ class autoPause{
         } 
     }
 
-    handleVisibilitychange(elem){
+    private handleVisibilitychange(elem){
         const isVisible = document.visibilityState === 'visible'; //Checa si esta visible la pestaña de la pagina
         console.log('is visible? ', isVisible);
         console.log('is paused? ', isVisible);
