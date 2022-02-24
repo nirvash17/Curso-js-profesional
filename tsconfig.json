@@ -5,5 +5,11 @@
     "allowJs": true,
     "target": "es2020"
   },
-  "include": ["./**/*"]
+  "include": ["./**/*"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "typings/browser.d.ts",
+    "typings/browser/**"
+]
 }

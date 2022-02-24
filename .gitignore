@@ -121,4 +121,4 @@ oldpackage.json
 #Los caches y dist, cero que no es recomendable subirlo al repo
 .parcel-cache
 .cache
-disr
+dist
