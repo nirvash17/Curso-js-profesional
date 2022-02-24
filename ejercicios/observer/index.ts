@@ -26,6 +26,8 @@ class BitcoinPrice implements Subject {
 
     subscribe (observer: Observer) {/* Se llama a susbscribe desde la instancia y se añade un observer para esta suscripvcion a la lista de observers */
         this.observers.push(observer) /* observer es una instancia de price display asi que trae el metodo update */
+        console.log(`subs :  ${this.observers}`);
+
     }
 
     unsubscribe(observer: Observer) {
@@ -43,24 +45,83 @@ class BitcoinPrice implements Subject {
 }
 
 class PriceDisplay implements Observer {
-    private el: HTMLElement
+    private el: HTMLElement;
 
-    constructor(){
-        this.el = document.querySelector("#price")
+    constructor(el: string) {
+        this.el = document.querySelector(el); // el elemento ahora es un parámetro
     }
 
-    // cada vez que el sujeto notifica a este observador modificamos el valor
     update(data: any) {
-        this.el.innerText = data
+        this.el.innerText = data;
     }
 }
 
-// instancias para suscribirnos al sujeto
-const value = new BitcoinPrice()
-const display = new PriceDisplay()
+const value = new BitcoinPrice();
 
-value.subscribe(display) // display es una instancia de price display, asi que se llama subscribe con esta
-setTimeout(
-    () => value.unsubscribe(display),
-    5000
-)
+
+/* Se crean objtos dsiplay que, pueden alterar su parrafon en el html */
+const display1 = new PriceDisplay('#price'); // ahora mandamos el elemento como parámetro
+const display2 = new PriceDisplay('#price2');
+const display3 = new PriceDisplay('#price3');
+
+const boton1:HTMLElement = document.querySelector('#boton1');
+const boton2:HTMLElement = document.querySelector('#boton2');
+const boton3:HTMLElement = document.querySelector('#boton3');
+
+/* Se le asigna a cada boton la funcion para subscribir y desusbscribir al hacer click */
+boton1.onclick = toggleSub;
+boton2.onclick = toggleSub;
+boton3.onclick = toggleSub;
+
+/* Array de objetos para cada subscriptor */
+
+interface Subscriptor{
+    boton: HTMLElement
+    display: PriceDisplay
+    subscrito: Boolean
+}
+
+const displays:Subscriptor[] = [
+    {
+        boton:boton1,
+        display:display1,
+        subscrito: false
+    },
+
+    {
+        boton:boton2,
+        display:display2,
+        subscrito: false
+    },
+
+    {
+        boton:boton3,
+        display:display3,
+        subscrito: false
+    }
+]
+
+
+
+function toggleSub(event){
+    let index:number;
+
+    /* Se encuentra el indice para saber que subscriptor llamo al boton */
+    index = displays.findIndex((bt) => {
+        console.log(`id botones ${bt.boton.id}`)
+        return bt.boton.id === event.srcElement.id
+    
+    })
+
+    /* Se subscribbe o desuscribe dependiendo de su estado */
+    if (!(displays[index].subscrito)){
+        value.subscribe(displays[index].display);
+        displays[index].boton.innerText = 'Desuscribirse';
+    }else{
+        value.unsubscribe(displays[index].display);
+        displays[index].boton.innerText = 'Suscribirse';
+
+    }
+
+}
+
