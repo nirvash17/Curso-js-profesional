@@ -2,11 +2,21 @@ class mediaPlayer {
     
     media:HTMLMediaElement;
     plugins:Array<any>;
+    container:HTMLElement;
 
     constructor(config) {
         this.media = config.el;
         this.plugins = config.plugins || [];
+        this.initPlayer();
         this.initPlugins();
+    }
+
+    initPlayer(){
+        this.container = document.createElement('div');
+        this.container.className = 'video-container'
+        this.container.style.position = 'relative';
+        this.media.parentNode.insertBefore(this.container, this.media);/* Inserta el container creado justo antes del elemeto media, dentro del nodo padre, el main container */
+        this.container.appendChild(this.media) /* Luego añado el elemento de video al container recien creado */
     }
 
     private initPlugins() {
