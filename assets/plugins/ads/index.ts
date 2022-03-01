@@ -10,11 +10,8 @@ class AdsPlugins{
     private media: HTMLMediaElement;
     private adsContainer:HTMLElement;
     private currentAd:Ad;
-    private prevAd: Ad;
     private closebtn: HTMLElement;
-    private currentTime: number;
     private counter: number;
-    private a:string
 
     constructor(){
         /* se le asigna a this.ads la instancia unica de Ads (singleton) */
@@ -38,10 +35,9 @@ class AdsPlugins{
 
     private handleTimeUpdate(){
         /* la propiedad media.cuurenTime entrega el instante en el que va el video */
-        this.currentTime = Math.floor(this.media.currentTime);
-        console.log(this.currentTime)
+        const currentTime:number = Math.floor(this.media.currentTime);
         /* Cada 30 segs se renderizara un ad en pantalla */
-        if (this.currentTime % 10 === 0){
+        if (currentTime % 10 === 0){
             this.renderAd();
         }
     }
@@ -55,7 +51,6 @@ class AdsPlugins{
                 this.currentAd = null
                 this.counter = 0;
             }
-            console.log('counter', this.counter, this.currentAd)
             return;
         }
 

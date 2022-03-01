@@ -110,6 +110,9 @@ class Ads{
 
     /* Va sacando y devolviendo el ultimo ad del array */
     getAd(){
+        if(this.ads === []){
+          this.ads = [...ALL_ADS]
+        }
         return this.ads.pop();
     }
 }

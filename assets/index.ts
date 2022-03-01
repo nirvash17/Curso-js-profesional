@@ -2,17 +2,19 @@ import mediaPlayer from "./mediaPlayer";
 import autoPlay from './plugins/autoPlay'; //Lo escribo antes de que existe, para arreglar sobre la marcha
 import autoPause from "./plugins/autoPause";
 import AdsPlugins from "./plugins/ads/index";
+import VideoBar from "./plugins/videoBar";
 
-const video :HTMLElement= document.querySelector("video");
-const buttonPlay:HTMLElement  = document.querySelector('.play');
-const buttonMute:HTMLElement = document.querySelector('.mute');
+const video :HTMLMediaElement= document.querySelector("video");
+
 
 
 const player = new mediaPlayer({
     el: video,
-    plugins: [new autoPlay(), new autoPause(), new AdsPlugins()],
+    plugins: [new autoPlay(), new autoPause(), new AdsPlugins(), new VideoBar()],
   });
-  
+
+const buttonPlay:HTMLElement  = document.querySelector('.play');
+const buttonMute:HTMLElement = document.querySelector('.mute');
 buttonPlay.onclick = () => player.play_pause();
 buttonMute.onclick = () => player.toggleMute();
 
