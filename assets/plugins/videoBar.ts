@@ -25,9 +25,6 @@ class VideoBar{
         this.handler = this.handler.bind(this);
         this.barPosition = this.barPosition.bind(this);
 
-
-
-
     }
 
     run(player: mediaPlayer){
@@ -50,16 +47,16 @@ class VideoBar{
         this.player.media.addEventListener('timeupdate', this.barPosition);
 
         this.barWidth = this.bar.offsetWidth;
-        console.log(this);
-
-
-
+        /* el evento loaded de data es necesario para esperar a que la data del video haya cargado y este disponible */
+        this.player.media.addEventListener('loadeddata', () => {
+            this.videoLong = this.player.media.duration;
+        })
+        
 
     }
 
     handler(elem){
-        this.videoLong = this.player.media.duration;
-        this.barWidth = elem.target.offsetWidth;
+        console.log('this en handler', this.player.media.duration);
         this.videoPosition = Math.round((elem.offsetX/10))*10;
         const instant = Math.round((this.videoLong/this.barWidth)*this.videoPosition);
         this.player.media.currentTime = instant;

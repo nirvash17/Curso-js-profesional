@@ -12,7 +12,6 @@ class mediaPlayer {
     }
 
     initPlayer(){
-        console.log(this.media.duration)
         this.container = document.createElement('div');
         this.container.className = 'video-container'
         this.container.style.position = 'relative';

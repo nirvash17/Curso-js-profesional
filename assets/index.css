@@ -20,7 +20,7 @@ header {
   font-family: 'Shizuru', cursive;
   color: papayawhip;
   font-size: 2.5rem;
-  
+  border-bottom: 0.6vh solid rgb(31, 2, 2);
 }
 
 header > h1 {
@@ -34,12 +34,20 @@ main {
 }
 
 .container {
-  display: flex;
+  display: grid;
+  grid-template: 540px 4vh/1fr 960px 1fr ;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   width: 100%;
   margin: 0 auto;
+}
+
+
+
+.video-container{
+  grid-row-start: 1;
+  grid-column-start: 2;
 }
 
 .ads-container{
@@ -107,6 +115,8 @@ main {
   margin: 0;
 }
 .botones{
+  grid-column-start: 2;
+  grid-row-start: 2;
   width: 960px;
   display: flex;
   justify-content: left;
