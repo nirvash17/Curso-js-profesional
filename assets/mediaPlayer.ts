@@ -3,10 +3,15 @@ class mediaPlayer {
     media:HTMLMediaElement;
     plugins:Array<any>;
     container:HTMLElement;
+    buttonsContainer:HTMLElement;
+    buttonPlay:HTMLElement;
+    buttonMute:HTMLElement;
 
     constructor(config) {
         this.media = config.el;
         this.plugins = config.plugins || [];
+        this.buttonPlay = config.play;
+        this.buttonMute = config.mute;
         this.initPlayer();
         this.initPlugins();
     }
@@ -17,6 +22,12 @@ class mediaPlayer {
         this.container.style.position = 'relative';
         this.media.parentNode.insertBefore(this.container, this.media);/* Inserta el container creado justo antes del elemeto media, dentro del nodo padre, el main container */
         this.container.appendChild(this.media) /* Luego añado el elemento de video al container recien creado */
+
+        this.buttonsContainer = document.createElement('div');
+        this.buttonsContainer.className = 'botones';
+        this.container.parentNode.insertBefore(this.buttonsContainer, this.container.nextSibling);
+        this.buttonsContainer.appendChild(this.buttonPlay);
+        this.buttonsContainer.appendChild(this.buttonMute);
     }
 
     private initPlugins() {
@@ -25,6 +36,7 @@ class mediaPlayer {
             plugin.run(this); /* Con ts, no tengo que usar el objeto player para limitar al plugin, ya que con ts se manejan de mejor manera variables y funciones privadas
             */
         });
+
     }
     play() {
         this.media.play();

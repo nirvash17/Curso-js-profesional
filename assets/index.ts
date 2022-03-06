@@ -3,23 +3,26 @@ import autoPlay from './plugins/autoPlay'; //Lo escribo antes de que existe, par
 import autoPause from "./plugins/autoPause";
 import AdsPlugins from "./plugins/ads/index";
 import VideoBar from "./plugins/videoBar";
+import VolumeBar from './plugins/volume'
 
 const video :HTMLMediaElement= document.querySelector("video");
 
-
+let buttonPlay:HTMLElement  = document.querySelector('.play');
+let buttonMute:HTMLElement = document.querySelector('.mute');
 
 const player = new mediaPlayer({
     el: video,
-    plugins: [new autoPlay(), new autoPause(), new AdsPlugins(), new VideoBar()],
+    plugins: [new autoPlay(), new autoPause(), new AdsPlugins(), new VideoBar(), new VolumeBar],
+    play: buttonPlay,
+    mute: buttonMute
   });
 
-const buttonPlay:HTMLElement  = document.querySelector('.play');
-const buttonMute:HTMLElement = document.querySelector('.mute');
+buttonPlay  = document.querySelector('.play');
+buttonMute = document.querySelector('.mute');
 buttonPlay.onclick = () => player.play_pause();
 buttonMute.onclick = () => player.toggleMute();
 
-
-
+console.log(buttonPlay.onclick)
 
 /* Se verifica que el browser tenga serviceWorker */
 if ('serviceWorker' in navigator){
@@ -29,4 +32,3 @@ if ('serviceWorker' in navigator){
         console.log(error.message)  //Por si sale mal se le asigna un catch
     })
 }
- 

@@ -15,8 +15,8 @@ body {
 header {
   text-align: center;
   padding: 1rem 0;
-  background: rgb(115,0,168);
-  background: linear-gradient(90deg, rgba(115,0,168,1) 0%, rgba(255,54,112,1) 0%, rgba(0,0,0,1) 61%); 
+  background: rgb(195,25,93);
+  background: linear-gradient(90deg, rgba(195,25,93,1) 0%, rgba(104,7,71,1) 0%, rgba(20,16,16,1) 81%);
   font-family: 'Shizuru', cursive;
   color: papayawhip;
   font-size: 2.5rem;
@@ -35,7 +35,8 @@ main {
 
 .container {
   display: grid;
-  grid-template: 540px 4vh/1fr 960px 1fr ;
+  grid-template: 540px 4vh/1fr 10vh 960px 10vh 1fr ;
+  padding-top: 0;
   align-items: center;
   justify-content: center;
   flex-direction: column;
@@ -44,10 +45,28 @@ main {
 }
 
 
+.container > div{
+  background: #c3195d;
+
+}
+.container-laterales-left{
+  grid-column: 1;
+  grid-row: 1/3;
+  width: 100%;
+  height: 100%;
+}
+
+.container-laterales-right{
+  grid-column: 5;
+  grid-row: 1/3;
+  width: 100%;
+  height: 100%;
+}
+
 
 .video-container{
   grid-row-start: 1;
-  grid-column-start: 2;
+  grid-column-start: 3;
 }
 
 .ads-container{
@@ -115,14 +134,17 @@ main {
   margin: 0;
 }
 .botones{
-  grid-column-start: 2;
+  grid-column-start: 3;
   grid-row-start: 2;
   width: 960px;
   display: flex;
   justify-content: left;
   align-items: center;
-  border: solid 0.4vh rgb(46, 11, 11);
+  border: solid 0.5vh rgb(46, 11, 11);
+  background-color: #f70776;
+  box-sizing: border-box;
 }
+
 
 
 .play{
@@ -144,14 +166,47 @@ main {
   width: 100%;
   height: 100%;
 } 
-.comments{
-  font-family: 'Cabin', sans-serif;
+
+.volume-container{
+  width: 8vh;
+  height: 3vh;
+  display: none;
+  background-color: #c3195d;
+  margin-left: 1vh;
+  transition-property: display;
+  transition-duration: 1s;
+}
+
+.volume-bar-container{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.volume-bar{
+  width: 6vh;
+  height: 1vh;
+  background-color: rgb(197, 189, 189);
+  border-radius: 0.6vh;
+  position: relative;
+}
+
+.volume-box{
+  position: absolute;
+  width: 1.5vh;
+  height: 1.5vh;
+  background-color: black;
+  border: 0.5vh solid white;
+  border-radius: 0.75vh;
+  visibility: visible;
+  transform: translateY(-20%);
 }
 
 .video-bar{
   width: 600px;
   height: 3vh;
-  background-color: rgb(75, 1, 1);
+  background-color: #c3195d;
   margin: 0 0  0 1vh;
   display: flex;
   justify-content: center;
@@ -159,7 +214,6 @@ main {
 }
 
 .bar{
-
   width: 580px;
   height: 1vh;
   background-color: rgb(197, 189, 189);
@@ -176,7 +230,8 @@ main {
   border-radius: 0.75vh;
   visibility: visible;
   transform: translateY(-20%);
-
+  transition-property: width, height;
+  transition-duration: 0.2s;
 }
 
 .position-box:hover{
@@ -184,4 +239,8 @@ main {
   height: 2vh;
   background-color: rgb(75, 1, 1);
   border-radius: 1vh;
+}
+
+.comments{
+  font-family: 'Cabin', sans-serif;
 }

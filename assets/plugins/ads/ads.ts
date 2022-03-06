@@ -110,7 +110,8 @@ class Ads{
 
     /* Va sacando y devolviendo el ultimo ad del array */
     getAd(){
-        if(this.ads === []){
+        if(this.ads.length === 0){
+          console.log('get ad in')
           this.ads = [...ALL_ADS]
         }
         return this.ads.pop();
